@@ -1,0 +1,32 @@
+name:
+  size: 15
+  type: string
+title:
+  size: 20
+  type: string
+type:                                                         #0-ship 1-colony
+xp:
+  size: 2
+  signed: true
+general_skills:                                               #bitvector for general skills
+  size: 4
+  signed: true
+special_skills:                                               #bitvector includes either ship || colony skills
+  size: 4
+  signed: true
+tech_application:                                             # Application id's of inherent techs
+  size: 3
+  type: string
+pict_num:
+
+skill_value:                                                  #  
+  size: 2
+  signed: true
+level:                                                        #
+location_id:                                                     #
+  size: 2
+  signed: true
+eta:                                                          #
+display_level_popup:                                          #if TRUE, draw officer-made-level popup
+status:                                                       #
+player_id:                                                    #

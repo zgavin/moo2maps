@@ -1,0 +1,136 @@
+player_id:                                                        # 0..NUM_PLAYERS or -1
+  signed: true
+  default: -1
+allocated_to:                                                 # bookeeping
+  signed: true
+  default: -1
+planet_id:                                                       # planet id
+  size: 2
+  signed: true
+  default: -1
+leader_id:                                                      # not used
+  size: 2
+  signed: true
+  default: -1
+outpost_flag:                                                 # TRUE if an outpost
+
+morale:                                                       # morale bonus +/-
+pollution:                                                    # production lost to pollution
+  size: 2
+  signed: true
+
+n_pops:                                                       # total population
+specialty:                                                    # Colony specialty used in display only
+
+#    struct Pop_Info {
+#            unsigned player:4;           // player id or POP_ANDROID or POP_NATIVE
+#            unsigned loyalty:3;          // player id
+#            unsigned job:2;              // 0-farmer, 1-worker, 2-scientist
+#            unsigned employed:1;
+#            unsigned conquered:1;        // true iff loyalty != colony owner
+#    };
+
+pop:                                                          #
+  type: PopInfo
+  count: 42
+
+pop_roundoff:                                                 # K toward next pop unit for each race
+  size: 2
+  signed: true
+  count: 10
+pop_growth:                                                   # each race grows independently
+  size: 2
+  signed: true
+  count: 10
+
+n_turns_existed:                                              # bookeeping
+food2_per_farmer:                                             # Food per farmer in half-units of food
+industry_per_worker:
+research_per_scientist:
+max_farms:                                                    #
+max_population:
+climate:
+
+ground_strength:                                              # calculated for ai
+  size: 2
+  signed: true
+space_strength:                                               # calculated for ai
+  size: 2
+  signed: true
+
+total_production:                                             # gross amount produced  0-food, 1-industry, 2-research
+  size: 2
+  signed: true
+  count: 3
+maintenance:                                                  # how much is spent feeding people/androids 0-food, 1-industry, 2-research
+  size: 3
+  type: string
+
+imports:                                                      # + means importing, - means surplus
+  size: 2
+  signed: true
+  count: 3
+#  (surplus exported only if unblockaded)
+
+n_industry_recyclers:                                         # for recycling pollution reduction
+
+#  for parcelling out food/metal in priority ordering:
+#  counted in half units due to cybernetic woes.
+food2_needed_for_our_empire:                                  #-------------------------------
+food2_needed_for_assimilated:                                 #
+food2_needed_for_conquered:                                   #
+food2_needed_for_natives:                                     #these are all bookeeping entries
+industry2_needed_for_our_empire:                              #
+industry2_needed_for_androids:                                #
+industry2_needed_for_assimilated:                             #
+industry2_needed_for_conquered:                               #
+food2_needed_for_empire:                                      #
+  size: 8
+  type: string
+industry2_needed_for_empire:                                  #
+  size: 8
+  type: string
+n_food_replicated:                                            #
+
+padding:
+  size: 5
+  type: string
+producing:                                                    # building queue
+  size: 2
+  signed: true
+  count: 7
+just_produced:                                                # if not -1, then colony completed this product last turn
+  size: 2
+  signed: true
+production_spent:
+  size: 2
+  signed: true
+n_industry_taxed:
+  size: 2
+  signed: true
+auto_building:
+production_surplus:                                           # for when production is changed
+  size: 2
+  signed: true
+bought_outright:                                              # amount of production bought
+  size: 2
+  signed: true
+# ---------------------------
+
+occupation_points:                                            # 240 points to assimilate 1 pop.
+occupation_policy:                                            # 0-genocide , 3-normal
+
+#  military
+military:                                                     # 0-infantry, 1-tanks
+  size: 2
+  signed: true
+  count: 2
+tank_roundoff:
+infantry_roundoff:
+
+buildings:
+  size: 49
+  type: string
+last_turn_building_destroyed:
+  size: 2
+  signed: true

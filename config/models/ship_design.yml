@@ -1,0 +1,25 @@
+name:
+  size: 16
+  type: string
+size:
+ship_type:
+shield_type:
+ftl_type:
+speed:
+computer_type:
+armor_type:
+special_device_flags:
+  size: 5
+  type: string
+ship_weapon:
+  type: ShipWeapon
+  count: 8
+picture_num:
+previous_player_id:
+  getter: players
+cost:
+  size: 2
+  signed: true
+combat_speed:
+date_of_design:
+  size: 2

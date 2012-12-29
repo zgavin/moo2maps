@@ -1,0 +1,19 @@
+colony_id:                                                 #-1 = NONE
+  size: 2
+  signed: true
+star_id:
+orbit:
+type:
+size:
+gravity:
+group:                                                        #used for map generation
+environment:
+background:                                              #display background  (0, 1, or 2)
+mineral_class:
+food_per_farmer:
+n_terraforms:
+max_farms:
+max_population:
+planet_special:
+environmental_alterations:                                    # bitvector permanent planet alterations  
+#  2 - Soil Enrichment is the only one in use.

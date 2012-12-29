@@ -1,0 +1,72 @@
+name:
+  size: 15
+  type: string
+x:                                                            # x coordinate of star
+  size: 2
+  signed: true
+y:                                                            # y coordinate of star
+  size: 2
+  signed: true
+size:                                                         #display type (0,1, or 2)
+player_id:
+pict_type:
+spectral_class:                                               # star color
+last_planet_selected:                                         # bookeeping
+  size: 8
+  type: string
+black_hole_blocks:                                            # precomputed bitfield if bit is set there is a black hole between the stars.
+  size: 9
+  type: string
+system_special:                                               # NO_SPECIAL is valid
+wormhole_star_id:                                             #NONE is valid
+  getter: stars
+  signed: true
+blockaded:                                                    # bitvector tells whether each player is blockaded
+#  e.g. TEST_BIT(blockaded, i) tells whether i is blockaded by anyone
+#  this is NOT superseded by blockaded_by because nonplayer monsters & antarans can also blockade a player
+blockaded_by:                                                 # indexed by player, bitvector tells whether given player blockades index player
+  size: 8
+  type: string
+#  e.g. TEST_BIT(blockaded_by[i], j) tells whether i is blockaded by j
+#  this is for diplomacy so AI can tell which players are blockading them at a star
+visited:                                                      # bitvector tells whether each player has ever visited
+just_visited:                                                 # bitvector tells whether each player 1st visited on prev turn & should get report
+ignore_colony_ships:                                          # bitvector tells if each player requested ignore colony ships
+#  reset each time a new colony ship enters star
+ignore_combat_ships:                                          # bitvector tells if each player requested ignore combat ships
+#  (the much requested "don't make me hit Only Blockade" feature)
+#  reset each time a new combat ship enters star
+colonize_player:                                              # 0..7 or -1 
+has_colony:                                                   # bitvector tells whether each player has a colony
+has_warp_field_interdictor:                                   # bitvector tells whether each player has a wfi in system
+next_wfi_in_list:                                             # bookeeping
+has_tachyon:                                                  # bitvector tells whether each player has a tachyon
+has_subspace:                                                 # bitvector tells whether each player has a subspace
+has_stargate:                                                 # bitvector tells whether each player has a stargate
+has_jumpgate:                                                 # bitvector tells whether each player has a jumpgate
+has_artemis_net:                                              # bitvector
+is_stagepoint:                                                # bitvector tells whether star is stagepoint for each AI
+has_dimensional_portal:                                       # bitvector
+
+
+leader_index:                                                #officers are now at stars and not colonies
+  signed: true
+  count: 8
+planet_index:
+  size: 2
+  signed: true
+  count: 5
+relocate_ship_to:                                             #star index all ships will be relocated TO
+  size: 2
+  signed: true
+  count: 8
+not_used:                                                     #
+  size: 3
+  type: string
+  default: "\xFF\xFF\x00"
+surrender_to:                                                 # normally -1, else player to give colonies to
+  size: 8
+  type: string
+in_nebula:                                                    # is this star in a nebula?
+artifacts_gave_app:                                           # has the ancient artifacts app been given out yet?
+

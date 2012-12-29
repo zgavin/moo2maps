@@ -1,0 +1,187 @@
+version:
+  size: 4
+  signed: true
+description:                                                  #- save game description
+  size: 37
+  type: string
+turn:                                                    #- 0:Single Player, 1:Hotseat, 2:Network, 3:Modem
+  size: 4
+  signed: true
+
+end_of_turn_summary:
+end_of_turn_wait:
+random_events:
+enemy_moves:
+expanding_help:
+auto_select_ships:
+animations_on:
+auto_select_colony:
+show_relocation_lines:
+show_gnn_report:
+auto_delete_tg_housing:
+auto_saves:
+
+only_show_serious_turn_summary_reports:
+
+ship_initiative:
+option_14:
+option_15:
+option_16:
+
+sound_fx_on:
+sound_fx_level:
+music_on:
+music_level:
+active_save_slot:
+  signed: true
+multi_player_game_type:
+
+net_game_name:                                                #char net_game_name[NET_GAME_NAME_LENGTH + 1]; //9 bytes
+  size: 9
+  type: string
+s_modem_comm_modem_settings:                                  #struct s_modem_comm modem_settings;           //131 bytes
+  size: 131
+  type: string
+s_modem_init_string_modem_init_string:                        #struct s_modem_init_string modem_init_string; //11 bytes
+  size: 11
+  type: string
+
+combat_speed_flag:
+combat_legal_moves_flag:
+combat_msl_impact_flag:
+combat_shield_arcs_flag:
+combat_grid_flag:
+
+filler_1:
+  size: 32
+  type: string
+  
+language:
+xenons_exist_flag:
+game_difficulty:
+number_of_players:
+galaxy_size:
+galaxy_age:
+strategic_combat_flag:
+starting_civilization_level:
+start_of_game_seed:
+  signed: true
+
+sound_toggle:
+  size: 2
+  signed: true
+mouse_driver:
+  size: 2
+  signed: true
+
+release_version:
+  size: 2
+  signed: true
+
+filler_2:
+  size: 324
+  type: string
+
+random_seed:
+  size: 8
+  signed: true
+
+colony_count:
+  size: 2
+  signed: true
+
+colonies:
+  type: Colony
+  count: 250
+  
+planet_count:
+  size: 2
+  
+planets:
+  type: Planet
+  count: 360
+  
+star_count: 
+  size: 2
+  
+stars:
+  type: Star
+  count: 72
+leaders:
+  type: Leader
+  count: 67
+  
+player_count:
+  size: 2
+players:
+  type: Player
+  count: 8
+
+ship_count:
+  size: 2
+ships:
+  type: Ship
+  count: 500
+
+filler_3:
+  size: 163
+  type: string
+  
+nebulas:
+  count: 4
+  type: Nebula
+  
+nebula_count: 
+  
+filler_4:
+  size: 3131
+  type: string
+
+council_flag:
+  size: 2
+  signed: true
+next_council_meeting_turn:
+  size: 2
+  signed: true
+
+filler_5:
+  size: 2
+  signed: true
+  count: 5
+
+#  Antarens
+
+invasion_chance:
+  size: 4
+  signed: true
+
+off_resource_level:                                           #resources used to buy new ships
+  size: 4
+  signed: true
+def_resource_level:                                           #2-Sml, 5-Med, 12-Lrg, 30-Huge, 75-Titan
+  size: 4
+  signed: true
+
+n_def_ships:                                                  #Ship counts by size
+  size: 4
+  signed: true
+  count: 9
+n_off_ships:                                                  #0-Sml, 1-Med, 2-Lrg, 3-Huge, 4-Titan, 5-8 not used
+  size: 4
+  signed: true
+  count: 9
+n_off_ships_deployed:
+  size: 4
+  signed: true
+  count: 9
+
+conquered:                                                    #set to TRUE when antarans are dead
+last_invasion_date:                                           #stardate
+  size: 4
+  signed: true
+displayed_report:                                             #bookeeping
+
+filler_6:
+  size: 949
+  type: string
+

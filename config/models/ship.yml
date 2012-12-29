@@ -1,0 +1,43 @@
+d:
+  type: ShipDesign
+player_id:
+status:
+  default: 5
+star_id:
+  size: 2
+  signed: true
+  default: -1
+x:
+  size: 2
+  signed: true
+y:
+  size: 2
+  signed: true
+group_has_navigator:                                          # does the moving group have navigator?
+travelling_speed:                                             # possibly less than ftl_type
+turns_left:                                                   # until arrival 
+
+shield_damage_percent:
+drive_damage_percent:
+computer_damage:
+
+
+crew_quality:
+crew_experience:
+  size: 2
+  signed: true
+leader_id:
+  size: 2
+  signed: true
+  default: -1
+special_device_damage_flags:                                  #bit vector Set if Special is damaged
+  size: 5
+  type: string
+armor_damage:
+  size: 2
+  signed: true
+structural_damage:
+  size: 2
+  signed: true
+mission:                                                      # AI Field
+just_built:

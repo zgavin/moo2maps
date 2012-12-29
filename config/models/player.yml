@@ -1,0 +1,549 @@
+picture:
+name:
+  size: 20
+  type: string
+race_name:
+  size: 15
+  type: string
+eliminated:
+race:
+color:
+personality:
+objectives:
+home_planet_id:
+  size: 2
+  signed: true
+  getter: planets
+
+network_player_number:                                            #bookeeping
+  size: 2
+  signed: true
+player_done_flags:                                            #bookeeping
+
+dead_field:
+  size: 2
+  signed: true
+research_breakthrough:                                        # did they complete a field this turn?
+
+tax_rate:                                                     # taxes are 0,10,20,30,40,50% of industry production
+bc:                                                           # our current amount of cash
+  size: 4
+  signed: true
+
+n_freighters:
+  size: 2
+  signed: true
+surplus_freighters:                                           #bookeeping
+  size: 2
+  signed: true
+
+command_points:
+  size: 2
+  signed: true
+command_points_used:
+  size: 2
+  signed: true
+
+#  sum of following 3 should be <= n_freighters * FREIGHTER_CAPACITY
+food_freighted:
+  size: 2
+  signed: true
+settlers_freighted:                                           # # settlers enroute, stored in settlers array:
+  size: 2
+  signed: true
+
+#         struct Settler_Info {
+#               unsigned source_colony:8; // colony id or MAX_COLONIES if already in space (cannot be redirected)
+#               unsigned dest_planet:8;   // planet id
+#               unsigned player:4;        // player id or POP_ANDROID or POP_NATIVE
+#               unsigned eta:4;           // if settler, takes this many turns to arrive
+#               unsigned job:2;
+#         };
+
+
+settlers:                                                     # slots < settlers_freighted are current settlers
+  type: SettlerInfo
+  count: 25
+
+total_pop:                                                    # of all our colonies
+  size: 2
+  signed: true
+
+#  total amounts produced by all colonies this turn:
+food_produced:
+  size: 2
+  signed: true
+industry_produced:
+  size: 2
+  signed: true
+research_produced:
+  size: 2
+  signed: true
+bc_produced:
+  size: 2
+  signed: true
+
+#  following are >0 if we had extra, <0 if we were short, this turn:
+surplus_food:                                                 # only accounting for unblockaded colonies
+  size: 2
+  signed: true
+surplus_bc:
+  size: 2
+  signed: true
+
+#  maintenance bc costs:
+total_maintenance:
+  size: 4
+  signed: true
+maintenance:                                                  # sum == total_maintenance
+  size: 2
+  signed: true
+  count: 6
+
+tech_fields:                                                  # 0-UNRESEARCHABLE, 1-NOT_KNOWN, 2-ON_RESEARCH_LIST, 3-KNOWN            
+  size: 83
+  type: string
+tech_applications:                                            # 0-UNRESEARCHABLE, 1-NOT_KNOWN, 2-ON_RESEARCH_LIST, 3-KNOWN  
+  size: 212
+  type: string
+
+research_accumulated:
+  size: 4
+  signed: true
+captured_orion:
+captured_antares:
+won_council_vote:
+player_defeated:                                              #stardate or 0
+  size: 4
+  signed: true
+  count: 8
+captured_population:
+  size: 2
+last_attacker:
+
+ship_design_theme:                                            #AI FIELDS
+ship_special_theme:                                           #AI FIELDS
+tech_apps_learned:                                            #bookeeping
+  size: 5
+  type: string
+# tech_modifiers:                                               #not in use
+#   size: 17
+#   type: string
+
+hyper_advanced_tech:                                          # LEVEL of hyper advanced tech achieved.
+  size: 8
+  type: string
+
+total_known_tech_cost:                                        # for history display
+  size: 4
+  type: string
+
+
+last_tech_report_date:                                        #not used
+  size: 4
+  signed: true
+  count: 8
+knows_racial_stats:                                           #not used
+
+
+#  bitfields, tell whether given player knows the app:
+player_tech_applications:
+  count: 216
+
+
+current_research_field:                                       # should be > 0, indicating which field
+current_research_application:                                 # 
+got_new_app:                                                  # within the last turn; causes AI to redecide field to research
+
+ship_range:
+  size: 2
+  signed: true
+
+ship_designs:
+  type: ShipDesign
+  count: 6
+ships_built:
+  size: 2
+  signed: true
+  count: 6
+
+contact:
+  size: 8
+  type: string
+just_established_contact:                                     # bitvector by player index
+n_times_established_contact:
+  size: 8
+  type: string
+within_range:                                                 # tells if this player can reach that player
+  size: 8
+  type: string
+#  (contact is symmetric, within_range is not)
+
+do_not_research:                                              # should the AI quit researching from now on?
+
+offensive_stagepoint:                                         #AI FIELD
+  signed: true
+
+best_ftl_drive:
+ship_speed:
+
+officer_for_hire:                                             # -1 or id of available officer this turn
+
+n_trade_pops:
+  size: 2
+  signed: true
+current_trade_agreement_level:
+  size: 2
+  signed: true
+  count: 8
+trade_agreement_goal:
+  size: 2
+  signed: true
+  count: 8
+
+n_research_pops:
+  size: 2
+  signed: true
+current_research_agreement_level:
+  size: 2
+  signed: true
+  count: 8
+research_agreement_goal:
+  size: 2
+  signed: true
+  count: 8
+
+fighter_beam_type:
+fighter_bomb_type:
+
+
+total_research:                                               #AI Field
+  size: 2
+  signed: true
+total_ships:                                                  #AI Field
+  size: 2
+  signed: true
+total_ship_strength:                                          #AI Field
+  size: 8
+  signed: true
+  count: 8
+total_colonies:                                               #AI Field
+  size: 2
+  signed: true
+failed_to_expand:                                             #AI Field
+
+
+# ÍÍÍÍÍÍÍdiplomacy stuff ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ
+first_contact:
+  size: 8
+  type: string
+relations:
+  size: 8
+  type: string
+base_relations:
+  size: 8
+  type: string
+
+treaty:
+  size: 8
+  type: string
+trade_treaty:
+  size: 8
+  type: string
+research_treaty:
+  size: 8
+  type: string
+tribute_treaty:
+  size: 2
+  signed: true
+  count: 8
+
+diplomacy_incident:
+  size: 8
+  type: string
+diplomacy_message:
+  size: 8
+  type: string
+diplomacy_severity:
+  size: 2
+  signed: true
+  count: 8
+diplomacy_value:
+  size: 2
+  signed: true
+  count: 8
+diplomacy_system:
+  size: 2
+  signed: true
+  count: 8
+
+treaty_modifier:
+  size: 2
+  signed: true
+  count: 8
+trade_modifier:
+  size: 2
+  signed: true
+  count: 8
+tech_exchange_modifier:
+  size: 2
+  signed: true
+  count: 8
+peace_modifier:
+  size: 2
+  signed: true
+  count: 8
+
+last_bad_diplomatic_incident:
+  size: 8
+  type: string
+broken_treaties_modifier:
+  size: 8
+  type: string
+last_broken_treaty:
+  size: 8
+  type: string
+last_gift:
+  size: 8
+  type: string
+
+ship_war_losses:                                              # 1) small, 2) medium, 3) large, etc.
+  size: 2
+  signed: true
+  count: 8
+colony_war_losses:                                            # 1/killed or captured colonist + 10/captured or destroyed colony
+  size: 2
+  signed: true
+  count: 8
+biological_weapons_flag:                                      # T/F killed a colonist on one of your colonies
+  size: 8
+  type: string
+time_since_last_attack:                                       # when I attack X, set [X] to 0
+  size: 8
+  type: string
+
+threats:
+  size: 8
+  type: string
+dishonored_flag:
+  size: 8
+  type: string
+peace_duration:
+  size: 8
+  type: string
+last_turn_diplomacy_severity:
+  size: 2
+  signed: true
+  count: 8
+last_broken_treaty_type:
+  size: 8
+  type: string
+
+last_turn_treaty:
+  size: 8
+  type: string
+
+diplomacy_proposal_request:                                   # 0) none, 1) First Offer, 2) Second Offer, 3) First Offer, Better 2nd Offer
+  size: 8
+  type: string
+diplomacy_proposal_tribute_bribe:                             # 0) none, 1) 5%/year,     2) 10%/year      10% tribute for better offer
+  size: 8
+  type: string
+diplomacy_proposal_tech_bribe1:                               #
+  size: 8
+  type: string
+diplomacy_proposal_tech_bribe2:                               # better offer technology or
+  size: 8
+  type: string
+diplomacy_proposal_gold_bribe:                                # +50% for better offer
+  size: 2
+  signed: true
+  count: 8
+diplomacy_proposal_war_player:
+  size: 8
+  type: string
+diplomacy_proposal_exchange_max_value:                        # tech exchange max value
+  size: 4
+  signed: true
+  count: 8
+diplomacy_proposal_exchange_tech:                             # tech exchange max value
+  size: 8
+  type: string
+diplomacy_proposal_system_bribe:
+  size: 2
+  signed: true
+  count: 8
+
+sneak_attack_planet:
+  size: 2
+  signed: true
+sneak_attack_message:
+sneak_attack_player:                                          # planet's ownership could have changed before we arrive
+
+council_threat:
+reward_amount:
+  size: 2
+  signed: true
+  count: 8
+reward_tech:
+  size: 8
+  type: string
+reward_attack_player:
+  size: 8
+  type: string
+
+
+food_shortage_duration:
+  size: 2
+  signed: true
+
+trust_worthiness:
+  size: 8
+  type: string
+trust_breaker_player:
+  size: 8
+  type: string
+trust_breaker_treaty:
+  size: 8
+  type: string
+
+stop_spying_duration:
+  size: 8
+  type: string
+stop_blockading_duration:
+  size: 8
+  type: string
+war_buildup_duration:                                         # nonzero means prepare for starting war in future
+
+last_diplomacy_proposal_turn:
+  size: 2
+  signed: true
+  count: 8
+diplomacy_proposal_rejection:
+  size: 2
+  signed: true
+  count: 8
+
+opportunity_planet_num:
+  size: 2
+  signed: true
+  count: 8
+opportunity_planet_value:
+  size: 2
+  signed: true
+  count: 8
+opportunity_actual_attacker_ratio:
+  size: 4
+  signed: true
+  count: 8
+
+
+# these are padding...
+# temp_diplomacy_dummy1:
+#   size: 2
+#   signed: true
+#   count: 8
+# 
+# diplomacy_demand_rejection_message:
+#   size: 8
+#   type: string
+# 
+# last_diplomacy_threat_turn:
+#   size: 8
+#   type: string
+
+delayed_diplomacy_orders:                                     # 10/9 by Russ
+  signed: true
+  count: 8
+#  can be NONE, or DELAYED_DECLARE_WAR, DELAYED_MAKE_PEACE, DELAYED_BREAK_ALLIANCE
+
+# ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ
+current_government:
+pop_growth_bonus:
+food_bonus:
+production_bonus:
+research_bonus:
+tax_bonus:
+ship_defense:
+ship_attack:
+ground_combat_bonus:
+spying_bonus:
+
+low_g_world:
+heavy_g_world:
+aquatic:
+subterranean:
+large_home_world:
+rich_home_world:
+ancient_home_world:
+cybernetic:
+eats_minerals:
+repulsive:
+charismatic:
+uncreative:
+creative:
+environment_immune:
+fantastic_traders:
+telepathic:
+lucky:
+omniscience:
+stealthy_ships:
+trans_dimensional:
+warlord:
+
+#  when they get evolution tech, players will interact with race screen
+#  during start-o-turn reports, then during the next turn calc the
+#  selected changes will be applied:  Meanwhile, they are briefly stored here:
+evolutionary_upgrade:
+  size: 31
+  type: string
+picked_evolutionary_upgrade:                                  # false until they get evolution tech and pick new racial stats
+applied_evolutionary_upgrade:                                 # false until they get evolution tech and new racial stats are actually applied
+
+#  Elemental history arrays:
+fleet_history:
+  size: 350
+  type: string
+tech_history:
+  size: 350
+  type: string
+population_history:
+  size: 350
+  type: string
+production_history:
+  size: 350
+  type: string
+
+spies:
+  count: 8
+history_btns:                                                 #1-bit flags for history graph buttons
+ignoring:                                                     #Set a bit to ignore a player
+
+peace_flags:
+  size: 8
+  type: string
+cheated:                                                      #bitfield
+stardate_last_offered_hero:
+  size: 4
+current_zoom_level:                                           #
+cur_map_x:                                                    # for hotseat games to restore mainscrn map
+  size: 4
+  signed: true
+cur_map_y:                                                    #
+  size: 4
+  signed: true
+council_voted_for:
+surrender_to:                                                 # normally -1, else a player id
+  signed: true
+time_since_last_lucky_event:
+  size: 2
+  signed: true
+has_galactic_lore:
+warned_about_cheating_player:                                 #BITFIELD based on player num
+cheated_this_turn:                                            #0 == didn;t cheat this turn
+tribute_income:
+  size: 4
+  signed: true
+filler:                                                       # not used
+  size: 39
+  type: string

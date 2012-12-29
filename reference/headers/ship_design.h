@@ -1,0 +1,15 @@
+   char  name[16];
+   char  size;
+   char  ship_type;
+   char  shield_type;
+   char  ftl_type;
+   char  speed;
+   char  computer_type;
+   char  armor_type;
+   char  special_device_flags[(MAX_SPECIALS+7)/8];
+   struct s_ship_weapons ship_weapon[MAX_SHIP_WEAPONS];
+   char  picture_num;
+   char  previous_owner;
+   short int  cost;
+   unsigned char combat_speed;
+   unsigned short int  date_of_design;

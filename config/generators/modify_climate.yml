@@ -1,0 +1,4 @@
+climate:
+  when: 0
+  min: 1
+  max: 7

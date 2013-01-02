@@ -7,7 +7,7 @@ module Model
       end
       
       def key
-        (options[:key] or "#{type}_id").to_s
+        (options[:key] or "#{name}_id").to_s
       end
 
       def type

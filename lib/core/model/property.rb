@@ -37,12 +37,12 @@ module Model
     end
     
     def size 
-      simple? and (@size or 1) or (Kernel.const_get(type).dump_size rescue 0)
+      simple? and (@size or 1) or (Kernel.const_get(type).write_size rescue 0)
     end
     
     def default
       if simple? 
-        v =  (type == "string" and (@default or "\x00"*size).force_encoding Encoding::BINARY or (@default or 0))
+        v =  (type == "string" and (@default or "\x00"*size).force_encoding Encoding::BINARY or (@default or (signed and -1 or 0)))
         array? ? (1..count).map do v end :  v
       else
         array? ? Model::ModelArray.new(self) : self.class.const_get(type).new

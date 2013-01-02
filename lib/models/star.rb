@@ -10,19 +10,23 @@ class Star
   pointable
   
   def clear
-    planets.each do |planet|
+    planets.compact.each do |planet|
       planet.clear if planet.star == self
     end
     
     ships.each &:clear 
     
-    game.leaders.select do |l| l.star == self end.each do |l| l.star_id = 0 end
+    leaders.each do |l| l.star = nil end
       
     super
   end
   
   def dead?
     self.id >= game.star_count
+  end
+  
+  def black_hole?
+    spectral_class == 6
   end
   
   def blocked_stars= arr
@@ -59,9 +63,9 @@ class Star
   
   def array_update array,method,args,&block
     if planets == array then
-      planets.each do |planet| planet.star = self if planet.star != self end
+      planets.each do |planet| planet.star = self if planet and planet.star != self and id < game.star_count end
     else
-      planets.replace(array.map do |idx| game.planets[id] if id >= 0 end)
+      planets.replace(array.map do |idx| game.planets[idx] if idx >= 0 end)
     end
   end
   

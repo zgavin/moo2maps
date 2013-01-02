@@ -15,7 +15,6 @@ module Model
     
     alias_method :get,:[]
     
-    
     def [] key
       ret = super
       unless ret then
@@ -24,7 +23,7 @@ module Model
         self[key] = ret
       end
 
-      ret      
+      ret.is_a? ModelArray and ret.to_a or ret      
     end
   end
 end

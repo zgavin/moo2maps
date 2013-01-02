@@ -51,7 +51,6 @@ module Model
     def write_object property,value,io
       value.respond_to? :write  and value.write(io) or write_string(property,value.to_s)
     end
-
   
     def clear
       self.class.properties.each do |property|

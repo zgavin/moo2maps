@@ -3,18 +3,19 @@ Pry.config.pager = false
 Game.new.instance_exec do
   def load s
     #self.clear
-    File.open "/Users/zgavin/DOS Games/VDC.boxer/C Master of Orion 2.harddisk/#{s}", &method(:read)
+    File.open "/Users/zgavin/DOS Games/VDC.boxer/C Master of Orion 2.harddisk/#{s}" do |f| read f end
     
     "#{s} Loaded"
   end
   
-  def write s=nil
-    File.open "/Users/zgavin/DOS Games/VDC.boxer/C Master of Orion 2.harddisk/#{s || 'SAVE10.GAM'}", 'w', &method(:write)
+  def dump s=nil
+    s ||=  'SAVE10.GAM'
+    File.open "/Users/zgavin/DOS Games/VDC.boxer/C Master of Orion 2.harddisk/#{s}", 'w' do |f| write f end
     
     "#{s} Written"
   end
   
-  puts load('SAVE10.GAM')
+  puts load('SAVE9.GAM')
   
   binding.pry :quiet => true
 end

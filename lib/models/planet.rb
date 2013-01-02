@@ -6,11 +6,21 @@ class Planet
   def clear
     colony.clear if colony.andand.planet == self
     
-    planet_index = self.star.planet_index.index(self.id)
+    planet_index = (star and star.planet_index.index(self.id) or nil)
     
     star.planet_index[planet_index] = -1 if planet_index
     
     super
+  end
+  
+  def habitable?
+    type == 3 or type == 4
+  end
+  
+  [:toxic, :radiated, :baren, :desert, :tundra, :ocean, :swamp, :arid, :terran, :gaia].each_with_index do |name,i|
+    define_method "#{name}?" do
+      climate == i
+    end
   end
 
   def size= size
@@ -39,12 +49,12 @@ class Planet
   end
   
   def star_id= value
-    star[orbit] = nil if star and star.planets.include? self
+    star.planets[orbit] = nil if star and star.planets.include? self
     super
   end
   
   def star= value
-    star[orbit] = nil if star and star.planets.include? self
+    star.planets[orbit] = nil if star and star.planets.include? self
     super
   end
 end

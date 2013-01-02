@@ -1,10 +1,9 @@
 module Generators
   class ModifyClimate < Generator
-    def transform
-      active_planets.each do |planet|
-        
-      end
-    end
+    include Generators::Modules::PlanetModifier
     
+    def transform
+      modify_planets 'climate',conf.climate
+    end
   end
 end

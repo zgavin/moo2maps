@@ -3,6 +3,8 @@ class Ship
   
   belongs_to :player, :star
   
+  pointable
+  
   def dead? 
     status == 5
   end

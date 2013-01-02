@@ -1,10 +1,11 @@
 module Generators
   module Modules
     module StarMirror
-     
       def mirror_star original, clone   
-        original_colonies =   original.planets.select &:colony
-        clone_colonies = clone.planets.select &:colony
+        original_colonies = original.planets.compact.select &:colony
+        clone_colonies = clone.planets.compact.select &:colony
+        
+        
         
         throw "cannot mirror systems with different numbers of colonies" unless  clone_colonies.count == original_colonies.count
 
@@ -19,25 +20,25 @@ module Generators
         end
         
         original.planets.each_with_index do |original_planet,i|
-          next if original_planet.colony
+          next if original_planet.andand.colony
           
           clone_planet = clone.planets[i]
           
           if original_planet and not clone_planet then
             clone_planet = inactive_planets.first
-            clone[i] = clone_planet
-            
+            clone.planets[i] = clone_planet
             self.planet_count += 1
           elsif clone_planet and not original_planet then
-            clone[i] = nil
+            clone.planets[i] = nil
+            clone_planet.id = (planet_count-1)
             clone_planet.clear
             self.planet_count -= 1
           end
           
           
-          [:climate,:gravity,:size,:mineral_class].each do |m| clone_planet.send("#{m}=",original_planet.send(m)) end if original_planet
-          
+          [:type,:climate,:gravity,:size,:minerals].each do |m| clone_planet.send("#{m}=",original_planet.send(m)) end if original_planet
         end
+        
       end 
     end
   end

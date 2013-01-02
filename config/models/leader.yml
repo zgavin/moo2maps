@@ -10,10 +10,8 @@ xp:
   signed: true
 general_skills:                                               #bitvector for general skills
   size: 4
-  signed: true
 special_skills:                                               #bitvector includes either ship || colony skills
   size: 4
-  signed: true
 tech_application:                                             # Application id's of inherent techs
   size: 3
   type: string

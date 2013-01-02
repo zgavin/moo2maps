@@ -7,9 +7,9 @@ type:
 size:
 gravity:
 group:                                                        #used for map generation
-environment:
+climate:
 background:                                              #display background  (0, 1, or 2)
-mineral_class:
+minerals:
 food_per_farmer:
 n_terraforms:
 max_farms:

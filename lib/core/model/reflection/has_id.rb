@@ -27,6 +27,12 @@ module Model
           all_objects[@id] = all_objects[new_id] if @id
           all_objects[new_id] = self
         end
+        
+        def dup 
+          super.tap do |dup|
+            dup.instance_variable_set "@id",nil
+          end
+        end
       end
     end
   end

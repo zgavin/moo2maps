@@ -1,4 +1,6 @@
 size:
-  when: 0
-  min: 1
-  max: 3
+  when: tiny
+  to:
+    - small
+    - medium
+    - large

@@ -3,23 +3,23 @@ home_stars:
 
 home_star_cluster:
   extra_stars: 3
-  mirror_stars: true
+  mirror_stars: false
   offset_from_home_star: 80
    
 
 center_stars:
-  outer_ring_guarded_by_monsters: false
+  outer_ring_guarded_by_monsters: true
   stars_per_ring:
     - 4
-    - 4
+    - 8
     - 8
   offset_per_ring:
     - 75
-    - 125
-    - 200
+    - 150
+    - 225
   angular_offset_per_ring:
     - Math::PI/4
-    - 0
+    - Math::PI/8
     - 0
   star_size_per_ring:
     - 1

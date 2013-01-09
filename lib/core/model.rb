@@ -9,8 +9,8 @@ module Model
 
   def self.included base
     base.instance_exec do
-      [Parsing,Reflection,Configuration].each do |m| include m end
       extend ClassMethods
+      [Parsing,Reflection,Configuration].each do |m| include m end
     end
   end
   

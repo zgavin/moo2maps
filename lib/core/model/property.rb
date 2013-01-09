@@ -23,7 +23,7 @@ module Model
         end unless method_defined? name
         
         define_method "#{name}=" do |value|
-          self.instance_variable_set "@#{name}",value
+          self.instance_variable_set "@#{name}",(value === true and 1 or value === false and 0 or value)
         end unless method_defined? "#{name}=" or prop.array?
       end
     end

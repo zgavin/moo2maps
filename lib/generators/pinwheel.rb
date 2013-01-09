@@ -80,7 +80,7 @@ module Generators
           
         home_star.size = 0
         
-        home_star.point = (Point.new(Math.cos(angle)*aspect_ratio,Math.sin(angle))*conf.home_stars.offset_from_center)+center_point
+        home_star.point = (Point.new(angle)*[aspect_ratio,1]*conf.home_stars.offset_from_center)+center_point
           
         home_star.blocked_stars = (stars-home_clusters[i]-[home_star]) if conf.block_travel?
           
@@ -88,7 +88,7 @@ module Generators
            star.black_hole_blocks = home_star.black_hole_blocks if conf.block_travel?
            star.size = 2
            cluster_angle = angle+j.to_f/conf.home_star_cluster.extra_stars*2*Math::PI
-           star.point = home_star.point + Point.new(Math.cos(cluster_angle),Math.sin(cluster_angle))*conf.home_star_cluster.offset_from_home_star*-1
+           star.point = home_star.point + Point.new(cluster_angle)*conf.home_star_cluster.offset_from_home_star*-1
         end
       end
   
@@ -107,17 +107,19 @@ module Generators
         star_size = c.star_size_per_ring[ring]
           
         group.each_with_index do |star,i|
-          star.blocked_stars = (stars - center_stars) 
+          star.blocked_stars = (stars - center_stars - [orion].compact) 
           
           angle = angle_offset + i.to_f/group.count*2*Math::PI
                 
-          star.point = center_point+(Point.new(Math.cos(angle)*aspect_ratio,Math.sin(angle))*offset)
+          star.point = center_point+(Point.new(angle)*[aspect_ratio,1]*offset)
           
           star.size = star_size
         end
       end
 
       cleanup(total_star_count)
+   
+      monster = active_ships.select do |s| s.player_id > 7 end.sample if c.outer_ring_guarded_by_monsters?
    
       home_clusters.each_with_index do |cluster,i|
         star = (cluster.count >= home_cluster_wormhole_count and cluster.first or home_stars[i])
@@ -127,21 +129,28 @@ module Generators
                
         other.wormhole_star = star
         star.wormhole_star = other
-        if conf.center_stars.outer_ring_guarded_by_monsters? then 
-          ship = ships.find do |s| s.player_id > 7 end.dup
+        if c.outer_ring_guarded_by_monsters? then 
+          ship = monster.dup
           ship.point = other.point
           ship.star = other
                
           ship.id = ship_count
           self.ship_count += 1
         end
+        
+        other.blocked_stars -= cluster
+        home_stars[i].blocked_stars -= [other]
            
         cluster.each_with_index do |star,j|
-          mirror_star home_clusters.first[j],star
-        end if i > 0 and conf.home_star_cluster.mirror_stars?
+          star.blocked_stars -= [other]
+          
+          mirror_star home_clusters.first[j],star if i > 0 and conf.home_star_cluster.mirror_stars?
+        end 
       end
                  
       if orion then    
+        star.blocked_stars = (stars - center_stars - [orion].compact) 
+        
         orion_prime = orion.planets.compact.find do |p| p.habitable? and p.gaia? end
         
         others = orion.planets.compact - [orion_prime]

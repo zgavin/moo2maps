@@ -3,6 +3,7 @@ module Model
     
     def self.included base
       base.extend ClassMethods
+      base.load_properties
     end
     
     module ClassMethods
@@ -13,6 +14,8 @@ module Model
       def properties
         @properties ||= YAML.load(File.read(File.join(ROOT_DIR,'config','models',"#{self.name.underscore}.yml"))).map do |name,attributes| Model::Property.new(name,self,attributes) end
       end
+      
+      alias_method :load_properties,:properties
     
       def property_offset name
         properties[0..(property_index(name)-1)].map do |p| p.size*p.count end.sum

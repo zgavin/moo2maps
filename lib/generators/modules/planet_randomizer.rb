@@ -19,10 +19,12 @@ module Generators
           c.split(/\s+/)[planet.group].to_i
         end
     
-        sum = 0
+        sum = climates.first
         random = rand(climates.sum)
-
-        planet.climate = climates.count.times.find do |i| sum += climates[i]; sum >= random end-1
+        
+        planet.climate = 0
+        
+        planet.climate += 1 and sum += climates[planet.climate] while sum <= random and climates[planet.climate+1]
       end
     end
   end

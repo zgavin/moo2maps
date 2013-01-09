@@ -1,4 +1,10 @@
 climate:
-  when: 0
-  min: 1
-  max: 7
+  when: toxic
+  to:
+    - radiated
+    - barren
+    - desert
+    - tundra
+    - ocean
+    - swamp
+    - arid

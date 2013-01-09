@@ -1,0 +1,5 @@
+ring_count: 3
+keep_existing_wormholes: false
+add_crossing_wormholes: true
+home_star_offset: 0.425
+minimum_offset: 0.20

@@ -21,8 +21,16 @@ class Star
     super
   end
   
+  def display_name
+    name[0..(name.index("\x00")-1)]
+  end
+  
   def dead?
     self.id >= game.star_count
+  end
+  
+  def habitable?
+    not black_hole? and planets.any? do |p| p.andand.habitable? end
   end
   
   def black_hole?
@@ -51,6 +59,12 @@ class Star
     end
     
     game.stars.select do |star| tmp[star.id] == 1 end
+  end
+  
+  def between a,b,radius=50
+    distance = ((self.x - a.x) * (b.y - a.y) - (self.y - a.y) * (b.x - a.x)).abs.to_f / Math.hypot(b.x-a.x,b.y-a.y)
+    return false unless distance > 0 or (self.x.between? *([a.x,b.x].sort) and self.y.between? *([a.y,b.y].sort))
+    radius >= distance
   end
   
   def planet_index

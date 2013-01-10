@@ -10,6 +10,12 @@ class Star
   pointable
   
   def clear
+    clean_dependents
+      
+    super
+  end
+  
+  def clean_dependents
     planets.compact.each do |planet|
       planet.clear if planet.star == self
     end
@@ -17,8 +23,6 @@ class Star
     ships.each &:clear 
     
     leaders.each do |l| l.star = nil end
-      
-    super
   end
   
   def display_name
@@ -35,6 +39,12 @@ class Star
   
   def black_hole?
     spectral_class == 6
+  end
+  
+  def black_hole!
+    self.spectral_class = 6
+    
+    clean_dependents
   end
   
   def blocked_stars= arr

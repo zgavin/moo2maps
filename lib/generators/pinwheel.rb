@@ -1,69 +1,32 @@
 module Generators
   class Pinwheel < Generator
     include Generators::Modules::StarMirror
-    include Generators::Modules::StarSwapper
-  
-    def center_ring_count
-      conf.center_stars.stars_per_ring.count
-    end
-    
-    def center_star_count
-      @center_star_count ||= conf.center_stars.stars_per_ring.sum
-    end
-    
-    def home_star_cluster_count
-      @home_star_count ||= (conf.home_star_cluster.extra_stars+1)*player_count
-    end
-    
-    def orion_star_count
-      @orion_star_count ||= (conf.orion? and 1 or 0)
-    end
   
     def total_star_count
-      @total_star_count ||= orion_star_count + home_star_cluster_count + center_star_count
-    end
-  
-    def home_cluster_wormhole_count
-      1
+      @total_star_count ||= (conf.orion? and 1 or 0) + (conf.home_star_cluster.extra_stars+1)*player_count + conf.center_stars.stars_per_ring.sum
     end
   
     def orion
-      conf.orion and stars.first or nil
+      @orion ||= conf.orion and stars.first or nil
     end
   
     def home_stars
-      @home_stars ||= active_players.map(&:home_planet).map(&:star).tap do |home_stars|
-        home_stars.each_with_index do |home_star,i| home_star.id = i+orion_star_count; end
-      end
+      @home_stars ||= active_players.map do |p| p.home_planet.star end
     end
   
     def home_clusters
       @home_clusters ||= begin 
-        swap_stars(home_stars.count+orion_star_count..(orion_star_count+home_star_cluster_count)) do |star|
-          star.black_hole? or active_ships.any? do |ship| ship.star == star end
-        end
-        
-        home_stars.count.times.map do |i| 
-          offset = home_stars.count+orion_star_count+i*conf.home_star_cluster.extra_stars
-        
-          stars[offset..(offset+conf.home_star_cluster.extra_stars-1)]
-        end
+        pool = (active_stars - [orion] - home_stars).select do |star| star.habitable? and active_ships.none? do |ship| ship.star == star end end
+          
+        home_stars.count.times.map do |i| pool.shift(conf.home_star_cluster.extra_stars).shuffle end
       end
     end
   
     def center_stars
-      @center_stars ||= begin 
-        center_star_offset = orion_star_count+home_star_cluster_count
+      @center_stars ||= begin
+        pool = (active_stars - [orion] - home_stars - home_clusters.flatten).reject(&:black_hole?).sort_by do |star| star.ships.count end.reverse
         
-        center_star_range = center_star_offset..(center_star_offset+center_star_count-1)
-        
-        swap_stars(center_star_range) do |star| star.spectral_class == 6 end
-      
-        active_ships.select do |s| s.player_id > 9 end.each_with_index do |ship,i| 
-          ship.star.id = center_star_offset+i 
-        end
-        
-        stars[center_star_range]
+        conf.center_stars.stars_per_ring.map do |i| pool.shift i end 
       end
     end
   
@@ -72,7 +35,9 @@ module Generators
       throw "outer ring in center must have at least as many stars as there are players" if conf.center_stars.stars_per_ring.last < player_count
  
       stars.each do |star| star.wormhole_star = nil end
- 
+      
+      (active_stars - [orion] - home_stars - home_clusters.flatten - center_stars.flatten).each &:clear
+      
       orion.point = center_point if orion
  
       home_stars.each_with_index do |home_star,i|
@@ -87,17 +52,15 @@ module Generators
         home_clusters[i].each_with_index do |star,j|
            star.black_hole_blocks = home_star.black_hole_blocks if conf.block_travel?
            star.size = 2
-           cluster_angle = angle+j.to_f/conf.home_star_cluster.extra_stars*2*Math::PI
+           cluster_angle = angle+j.to_f/conf.home_star_cluster.extra_stars*2*Math::PI+eval(conf.home_star_cluster.angular_offset)
            star.point = home_star.point + Point.new(cluster_angle)*conf.home_star_cluster.offset_from_home_star*-1
         end
       end
   
       c = conf.center_stars
         
-      center_ring_count.times do |ring|
+      center_stars.each_with_index do |group,ring|
         offset = (ring == 0 and 0 or c.stars_per_ring[0..(ring-1)].sum)
-               
-        group = center_stars[offset..(offset+c.stars_per_ring[ring]-1)]
       
         angle_offset = c.angular_offset_per_ring[ring]
         angle_offset = eval(angle_offset) if angle_offset.is_a? String
@@ -107,7 +70,7 @@ module Generators
         star_size = c.star_size_per_ring[ring]
           
         group.each_with_index do |star,i|
-          star.blocked_stars = (stars - center_stars - [orion].compact) 
+          star.blocked_stars = (stars - center_stars.flatten - [orion]) 
           
           angle = angle_offset + i.to_f/group.count*2*Math::PI
                 
@@ -116,16 +79,17 @@ module Generators
           star.size = star_size
         end
       end
+      
+      active_ships.each do |ship| ship.point = ship.star.point end
 
-      cleanup(total_star_count)
-   
       monster = active_ships.select do |s| s.player_id > 7 end.sample if c.outer_ring_guarded_by_monsters?
    
       home_clusters.each_with_index do |cluster,i|
-        star = (cluster.count >= home_cluster_wormhole_count and cluster.first or home_stars[i])
-        other = center_stars[-1*(c.stars_per_ring.last)..-1].inject nil do |closest,current|
+        star = (cluster.count > 0 and cluster.first or home_stars[i])
+        other = center_stars.last.inject nil do |closest,current|
           closest and closest.point.distance_to(star.point) < current.point.distance_to(star.point) and closest or current 
         end
+        home_star = home_stars[i]
                
         other.wormhole_star = star
         star.wormhole_star = other
@@ -138,8 +102,9 @@ module Generators
           self.ship_count += 1
         end
         
-        other.blocked_stars -= cluster
-        home_stars[i].blocked_stars -= [other]
+        other.blocked_stars -= ([home_star]+cluster)
+        
+        home_star.blocked_stars -= [other]
            
         cluster.each_with_index do |star,j|
           star.blocked_stars -= [other]
@@ -149,7 +114,7 @@ module Generators
       end
                  
       if orion then    
-        star.blocked_stars = (stars - center_stars - [orion].compact) 
+        orion.blocked_stars = (stars - center_stars.flatten - [orion]) 
         
         orion_prime = orion.planets.compact.find do |p| p.habitable? and p.gaia? end
         
@@ -166,7 +131,7 @@ module Generators
         
         orion.planets.replace([orion_prime]+others)
       end
-      
+
       self.nebula_count = 0
     end
   end

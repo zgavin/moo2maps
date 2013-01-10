@@ -38,7 +38,6 @@ module Generators
           
           [:type,:climate,:gravity,:size,:minerals,:group,:planet_special].each do |m| clone_planet.send("#{m}=",original_planet.send(m)) end if original_planet
         end
-        
       end 
     end
   end

@@ -5,6 +5,7 @@ home_star_cluster:
   extra_stars: 3
   mirror_stars: false
   offset_from_home_star: 80
+  angular_offset: 0#Math::PI/2
    
 
 center_stars:
@@ -12,17 +13,21 @@ center_stars:
   stars_per_ring:
     - 4
     - 8
+    - 12
     - 8
   offset_per_ring:
     - 75
     - 150
     - 225
+    - 300
   angular_offset_per_ring:
     - Math::PI/4
     - Math::PI/8
     - 0
+    - 0
   star_size_per_ring:
     - 1
+    - 2
     - 2
     - 2
 

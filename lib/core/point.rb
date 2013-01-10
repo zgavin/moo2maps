@@ -17,6 +17,10 @@ class Point
     Point.new(self.x+other.x,self.y+other.y)
   end
   
+  def - other
+    Point.new(self.x-other.x,self.y-other.y)
+  end
+  
   def * scalar
     scalar = (scalar.is_a? Array and scalar or [scalar,scalar])
     Point.new(self.x*scalar.first,self.y*scalar.last)

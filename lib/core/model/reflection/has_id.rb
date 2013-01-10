@@ -33,6 +33,14 @@ module Model
             dup.instance_variable_set "@id",nil
           end
         end
+        
+        def clear
+          m = "#{self.class.name.underscore}_count"
+          self.id = game.send(m)-1
+          game.send("#{m}=",self.id)
+          
+          super
+        end
       end
     end
   end

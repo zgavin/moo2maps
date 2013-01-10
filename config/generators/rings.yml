@@ -1,5 +1,22 @@
-ring_count: 3
-keep_existing_wormholes: false
-add_crossing_wormholes: true
-home_star_offset: 0.425
-minimum_offset: 0.20
+rings: 
+  offset:
+    - 0.2
+    - 0.275
+    - 0.35
+    - 0.425
+  stars:
+    - 16
+    - home
+    - 16
+    - 24
+  favor_habitable_stars: true
+
+remaining_stars:
+  action: move #options are remove, leave_in_place, move
+  replace_with_black_holes: true
+  offset: 0.1 #only required if action is 'move'
+  
+wormholes:
+  keep_existing: false
+  add_inner_wormholes: true
+  

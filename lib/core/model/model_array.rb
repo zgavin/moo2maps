@@ -7,6 +7,7 @@ module Model
     end
     
     def []= key,value
+      raise ArgumentError,"key (#{key}) is greater than property count (#{@property.count}) model:#{@property.owner.name  } property:#{@property.name}" if key >= @property.count
       self[key].instance_variable_set "@id",nil if get(key).andand.id == key
       super.tap do 
         value.instance_variable_set "@id",key 

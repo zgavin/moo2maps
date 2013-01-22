@@ -9,6 +9,7 @@ y:                                                            # y coordinate of 
   signed: true
 size:                                                         #display type (0,1, or 2)
 player_id:
+  signed: true
 pict_type:
 spectral_class:                                               # star color
 last_planet_selected:                                         # bookeeping

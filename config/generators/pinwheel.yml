@@ -1,5 +1,5 @@
 home_stars:
-  offset_from_center: 480
+  offset_from_center: 500
 
 home_star_cluster:
   extra_stars: 3
@@ -13,7 +13,7 @@ center_stars:
   stars_per_ring:
     - 4
     - 8
-    - 12
+    - 16
     - 8
   offset_per_ring:
     - 75
@@ -23,7 +23,7 @@ center_stars:
   angular_offset_per_ring:
     - Math::PI/4
     - Math::PI/8
-    - 0
+    - Math::PI/16
     - 0
   star_size_per_ring:
     - 1

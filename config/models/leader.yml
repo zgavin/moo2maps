@@ -28,3 +28,4 @@ eta:                                                          #
 display_level_popup:                                          #if TRUE, draw officer-made-level popup
 status:                                                       #
 player_id:                                                    #
+  signed: true

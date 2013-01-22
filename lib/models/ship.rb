@@ -1,7 +1,9 @@
 class Ship
   include Model
   
-  belongs_to :player, :star
+  belongs_to :star
+  
+  attr_accessor :player
   
   pointable
   
@@ -21,5 +23,12 @@ class Ship
   def star_id= val
     super(travelling? ? val-500 : val)
   end
-
+  
+  def player_id 
+    player.andand.id or super
+  end
+  
+  def player_id= value
+    value.between? 0,7 ? super : self.player = game.players[value]
+  end
 end

@@ -15,7 +15,7 @@ Game.new.instance_exec do
     "#{s} Written"
   end
   
-  puts load('SAVE5.GAM')
+  puts load('SAVE10.GAM')
   
   binding.pry :quiet => true
 end

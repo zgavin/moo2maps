@@ -9,7 +9,7 @@ home_star_cluster:
    
 
 center_stars:
-  outer_ring_guarded_by_monsters: true
+  outer_ring_guarded_by_monsters: false
   stars_per_ring:
     - 4
     - 8
